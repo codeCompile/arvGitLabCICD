@@ -8,22 +8,42 @@ sourceCompatibility = 1.8 // java 8
 targetCompatibility = 1.8
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'com.google.guava:guava:29.0-jre'
+    // Use JUnit Jupiter API for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.2'
+
+    // Use JUnit Jupiter Engine for testing.
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.5.2'
+}
+
+test {
+    // Use junit platform for unit tests
+    useJUnitPlatform()
+}
+
+task projectupper {
+    group = 'Custom Tasks'
+    description = 'Task to get Project Name and Convert it to upper case'
+    doLast {
+        String projectName = project.name
+        println "Project Name: $projectName"
+        println "Upper case: ${projectName.toUpperCase()}"
+    }
 }
 
 java {
-	withSourcesJar()
-	withJavadocJar()
+    withSourcesJar()
+    withJavadocJar()
 }
 
 publishing {
     publications {
         maven(MavenPublication) {
-		from components.java
+            from components.java
         }
     }
 }
